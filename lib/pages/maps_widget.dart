@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import '../src/locations.dart' as locations;
 
 class MapsWidget extends StatefulWidget {
   const MapsWidget({Key? key}) : super(key: key);
@@ -16,7 +15,6 @@ class _MapsWidgetState extends State<MapsWidget> {
   final Location _location = Location();
 
   Future<void> _onMapCreated(GoogleMapController controller) async {
-    // final googleOffices = await locations.getGoogleOffices();
     setState(() {
       _markers.clear();
       _location.onLocationChanged.listen((l) {
@@ -27,20 +25,13 @@ class _MapsWidgetState extends State<MapsWidget> {
             title: 'Current Location',
           ),
         );
+        controller.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 15),
+          ),
+        );
       });
     });
-
-    // for (final office in googleOffices.offices) {
-    //   final marker = Marker(
-    //     markerId: MarkerId(office.name),
-    //     position: LatLng(office.lat, office.lng),
-    //     infoWindow: InfoWindow(
-    //       title: office.name,
-    //       snippet: office.address,
-    //     ),
-    //   );
-    //   _markers[office.name] = marker;
-    // }
   }
 
   @override
@@ -59,6 +50,15 @@ class _MapsWidgetState extends State<MapsWidget> {
           ),
           markers: _markers.values.toSet(),
         ),
+        floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: Colors.green[700],
+          onPressed: () {
+            setState(() {});
+          },
+          icon: const Icon(Icons.pin_drop_rounded),
+          label: const Text("My Location"),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }

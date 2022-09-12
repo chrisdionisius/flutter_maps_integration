@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_maps_integration/pages/current_location.dart';
 import 'package:flutter_maps_integration/pages/maps_widget.dart';
 
 void main() {
